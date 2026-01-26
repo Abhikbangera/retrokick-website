@@ -5,6 +5,7 @@ import { ShoppingBag, Plus, Minus, Trash2, ArrowRight, ArrowLeft } from 'lucide-
 
 export function Cart() {
   const { items, updateQuantity, removeItem, totalItems, totalPrice } = useCart();
+  console.log('Cart page render - items:', items.length, 'totalItems:', totalItems);
   const navigate = useNavigate();
 
   const shipping = totalPrice > 5000 ? 0 : 199;

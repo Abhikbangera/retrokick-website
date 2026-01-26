@@ -20,14 +20,8 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem('retrokick-cart');
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem('retrokick-cart', JSON.stringify(items));
-  }, [items]);
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [renderKey, setRenderKey] = useState(0);
 
   const addItem = (product: Product, quantity: number, selectedSize: string) => {
     console.log('CartContext addItem called:', product.name, 'size:', selectedSize, 'qty:', quantity);
@@ -45,8 +39,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
         );
       }
       console.log('Adding new item to cart');
-      return [...prev, { product, quantity, selectedSize }];
+      const newItems = [...prev, { product, quantity, selectedSize }];
+      console.log('New cart items:', newItems.length);
+      return newItems;
     });
+    // Force re-render
+    setRenderKey(k => k + 1);
   };
 
   const removeItem = (productId: string, selectedSize: string) => {
