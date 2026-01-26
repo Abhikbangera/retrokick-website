@@ -30,17 +30,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items]);
 
   const addItem = (product: Product, quantity: number, selectedSize: string) => {
+    console.log('CartContext addItem called:', product.name, 'size:', selectedSize, 'qty:', quantity);
     setItems(prev => {
+      console.log('Current cart items:', prev.length);
       const existing = prev.find(
         item => item.product.id === product.id && item.selectedSize === selectedSize
       );
       if (existing) {
+        console.log('Item exists, updating quantity');
         return prev.map(item =>
           item.product.id === product.id && item.selectedSize === selectedSize
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
+      console.log('Adding new item to cart');
       return [...prev, { product, quantity, selectedSize }];
     });
   };
