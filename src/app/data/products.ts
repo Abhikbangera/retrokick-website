@@ -20,9 +20,10 @@ export const products: Product[] = [
     category: 'club',
     team: 'Barcelona',
     year: '2025',
-image: '/Jerseys/Barca_Front.png',
+    image: '/Jerseys/Barca_Front.png',
     backImage: '/Jerseys/Barca_Back.png',
-    description: 'New season Blaugrana home jersey featuring the iconic stripes with modern performance fabric.'
+    description: 'New season Blaugrana home jersey featuring the iconic stripes with modern performance fabric.',
+    sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
   {
     id: '2',
@@ -33,7 +34,8 @@ image: '/Jerseys/Barca_Front.png',
     year: '2025',
     image: 'https://www.madridflagshipstore.com/media/catalog/product/cache/1/image/1000x/9df78eab33525d08d6e5fb8d27136e95/r/m/rmdf2526_01.jpg',
     backImage: '',
-    description: 'Pure white excellence for the new season. Champions League glory awaits.'
+    description: 'Pure white excellence for the new season. Champions League glory awaits.',
+    sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
   {
     id: '3',
@@ -44,7 +46,8 @@ image: '/Jerseys/Barca_Front.png',
     year: '2025',
     image: '',
     backImage: '',
-    description: 'Iconic red devil jersey for the new era at Old Trafford.'
+    description: 'Iconic red devil jersey for the new era at Old Trafford.',
+    sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
   {
     id: '4',
@@ -55,7 +58,8 @@ image: '/Jerseys/Barca_Front.png',
     year: '2025',
     image: '',
     backImage: '',
-    description: 'Bold new third kit featuring premium tech fleece for ultimate comfort.'
+    description: 'Bold new third kit featuring premium tech fleece for ultimate comfort.',
+    sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
   // Retro Jerseys
   {
@@ -67,7 +71,8 @@ image: '/Jerseys/Barca_Front.png',
     year: '2007',
     image: '',
     backImage: '',
-    description: 'The legendary jersey from Milan\'s 6th Champions League trophy. Featuring Kaká, Pirlo, and Seedorf.'
+    description: 'The legendary jersey from Milan\'s 6th Champions League trophy. Featuring Kaká, Pirlo, and Seedorf.',
+    sizes: ['S', 'M', 'L', 'XL']
   },
   {
     id: '6',
@@ -78,7 +83,8 @@ image: '/Jerseys/Barca_Front.png',
     year: '2006',
     image: '',
     backImage: '',
-    description: 'Classic white shirt from Germany 2006. Beckham, Rooney, and Gerrard era.'
+    description: 'Classic white shirt from Germany 2006. Beckham, Rooney, and Gerrard era.',
+    sizes: ['S', 'M', 'L', 'XL']
   },
   // International 25-26
   {
@@ -90,7 +96,8 @@ image: '/Jerseys/Barca_Front.png',
     year: '2025',
     image: '',
     backImage: '',
-    description: 'New season Albiceleste jersey. Continuing the legacy of World Cup champions.'
+    description: 'New season Albiceleste jersey. Continuing the legacy of World Cup champions.',
+    sizes: ['XS', 'S', 'M', 'L', 'XL']
   },
   {
     id: '8',
@@ -101,7 +108,8 @@ image: '/Jerseys/Barca_Front.png',
     year: '2025',
     image: '',
     backImage: '',
-    description: 'Three Lions new home kit. Hope and glory for the upcoming tournaments.'
+    description: 'Three Lions new home kit. Hope and glory for the upcoming tournaments.',
+    sizes: ['XS', 'S', 'M', 'L', 'XL']
   }
 ];
 

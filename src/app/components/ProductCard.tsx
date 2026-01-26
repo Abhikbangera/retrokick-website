@@ -11,16 +11,17 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const [hoverPosition, setHoverPosition] = useState<'left' | 'right' | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0] || 'M');
   const imageRef = useRef<HTMLDivElement>(null);
   const { addItem } = useCart();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!imageRef.current) return;
-    
+
     const rect = imageRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const width = rect.width;
-    
+
     if (x < width / 2) {
       setHoverPosition('left');
     } else {
@@ -30,6 +31,12 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const handleMouseLeave = () => {
     setHoverPosition(null);
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem(product, 1, selectedSize);
   };
 
   const showBackImage = hoverPosition === 'right' && product.backImage;
@@ -135,6 +142,32 @@ export function ProductCard({ product }: ProductCardProps) {
               {product.description}
             </p>
 
+            {/* Size Selector */}
+            {product.sizes && product.sizes.length > 0 && (
+              <div className="mb-4">
+                <p className="text-white/50 text-xs mb-2">Select Size:</p>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setSelectedSize(size);
+                      }}
+                      className={`w-8 h-8 text-sm font-bold rounded-lg transition-all ${
+                        selectedSize === size
+                          ? 'bg-[#00ff9d] text-black'
+                          : 'bg-white/10 text-white hover:bg-white/20'
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Price and Cart */}
             <div className="flex items-center justify-between">
               <div>
@@ -146,6 +179,7 @@ export function ProductCard({ product }: ProductCardProps) {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={handleAddToCart}
                 className="group/btn px-4 py-2 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center space-x-2 hover:shadow-lg hover:shadow-[#00ff9d]/50 transition-shadow"
               >
                 <ShoppingCart className="w-4 h-4" />
