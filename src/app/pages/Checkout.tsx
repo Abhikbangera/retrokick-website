@@ -51,7 +51,7 @@ export function Checkout() {
     
     // Razorpay integration
     const options = {
-      key: 'YOUR_RAZORPAY_KEY_ID', // Replace with your Razorpay Key ID
+      key: 'rzp_live_S7lrNBZwLJnG0c ', // Replace with your Razorpay Key ID
       amount: Math.round(grandTotal * 100), // Amount in paise
       currency: 'INR',
       name: 'RetroKick',
