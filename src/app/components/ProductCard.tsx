@@ -12,6 +12,7 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const [hoverPosition, setHoverPosition] = useState<'left' | 'right' | null>(null);
   const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0] || 'M');
+  const [clickCount, setClickCount] = useState(0);
   const imageRef = useRef<HTMLDivElement>(null);
   const { addItem } = useCart();
 
@@ -185,12 +186,20 @@ export function ProductCard({ product }: ProductCardProps) {
               <span className="text-2xl font-black text-[#00ff9d]">
                 ₹{product.price.toLocaleString('en-IN')}
               </span>
+              {clickCount > 0 && (
+                <span className="ml-2 text-sm text-white/50">Clicks: {clickCount}</span>
+              )}
             </div>
 
             <motion.button
+              id={`add-btn-${product.id}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleAddToCart}
+              onClick={(e) => {
+                console.log('Button clicked for:', product.name);
+                setClickCount(c => c + 1);
+                handleAddToCart(e);
+              }}
               className="group/btn px-4 py-2 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center space-x-2 hover:shadow-lg hover:shadow-[#00ff9d]/50 transition-shadow"
             >
               <ShoppingCart className="w-4 h-4" />
