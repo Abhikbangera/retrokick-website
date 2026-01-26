@@ -1,13 +1,16 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { products } from '@/app/data/products';
-import { ShoppingCart, Heart, Star, Truck, Shield, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, Heart, Star, Truck, Shield, ArrowLeft, Check } from 'lucide-react';
 import { useState } from 'react';
+import { useCart } from '@/app/context/CartContext';
 
 export function ProductDetails() {
   const { id } = useParams();
   const product = products.find((p) => p.id === id);
   const [selectedSize, setSelectedSize] = useState('');
+  const [isAdding, setIsAdding] = useState(false);
+  const { addItem } = useCart();
 
   if (!product) {
     return (
@@ -23,6 +26,15 @@ export function ProductDetails() {
   }
 
   const stockPercent = (product.stock / 50) * 100;
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      return;
+    }
+    setIsAdding(true);
+    addItem(product, 1, selectedSize);
+    setTimeout(() => setIsAdding(false), 1000);
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] pt-32 pb-20 px-4 md:px-8">
@@ -151,13 +163,26 @@ export function ProductDetails() {
             {/* Action Buttons */}
             <div className="flex space-x-4">
               <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="flex-1 py-4 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center justify-center space-x-2 hover:shadow-xl hover:shadow-[#00ff9d]/50 transition-shadow"
+                onClick={handleAddToCart}
+                disabled={isAdding || !selectedSize}
+                whileHover={{ scale: isAdding || !selectedSize ? 1 : 1.02 }}
+                whileTap={{ scale: isAdding || !selectedSize ? 1 : 0.98 }}
+                className={`flex-1 py-4 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center justify-center space-x-2 hover:shadow-xl hover:shadow-[#00ff9d]/50 transition-shadow ${
+                  !selectedSize ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
                 style={{ fontFamily: "'Bebas Neue', sans-serif" }}
               >
-                <ShoppingCart className="w-5 h-5" />
-                <span>ADD TO CART</span>
+                {isAdding ? (
+                  <>
+                    <Check className="w-5 h-5" />
+                    <span>ADDED TO CART</span>
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart className="w-5 h-5" />
+                    <span>{!selectedSize ? 'SELECT SIZE' : 'ADD TO CART'}</span>
+                  </>
+                )}
               </motion.button>
 
               <motion.button

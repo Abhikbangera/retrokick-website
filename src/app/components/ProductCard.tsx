@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ShoppingCart, Heart, Eye } from 'lucide-react';
 import { Product } from '@/app/data/products';
 import { useState } from 'react';
+import { useCart } from '@/app/context/CartContext';
 
 interface ProductCardProps {
   product: Product;
@@ -10,8 +11,18 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const { addItem } = useCart();
 
   const stockPercent = (product.stock / 50) * 100;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsAdding(true);
+    addItem(product, 1, product.sizes[0]);
+    setTimeout(() => setIsAdding(false), 1000);
+  };
 
   return (
     <motion.div
@@ -130,12 +141,16 @@ export function ProductCard({ product }: ProductCardProps) {
               </div>
 
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="group/btn px-4 py-2 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center space-x-2 hover:shadow-lg hover:shadow-[#00ff9d]/50 transition-shadow"
+                onClick={handleAddToCart}
+                disabled={isAdding}
+                whileHover={{ scale: isAdding ? 1 : 1.05 }}
+                whileTap={{ scale: isAdding ? 1 : 0.95 }}
+                className={`group/btn px-4 py-2 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center space-x-2 hover:shadow-lg hover:shadow-[#00ff9d]/50 transition-shadow ${
+                  isAdding ? 'from-[#00d9ff] to-[#00ff9d]' : ''
+                }`}
               >
                 <ShoppingCart className="w-4 h-4" />
-                <span className="text-sm">ADD</span>
+                <span className="text-sm">{isAdding ? 'ADDED!' : 'ADD'}</span>
               </motion.button>
             </div>
           </div>

@@ -2,10 +2,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Search, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
+import { useCart } from '@/app/context/CartContext';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const { totalItems } = useCart();
   const location = useLocation();
 
   const navLinks = [
@@ -90,9 +91,9 @@ export function Navbar() {
                   aria-label="Shopping Cart"
                 >
                   <ShoppingCart className="w-5 h-5 text-white/80" />
-                  {cartCount > 0 && (
+                  {totalItems > 0 && (
                     <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#ff0055] text-white text-xs rounded-full flex items-center justify-center animate-pulse">
-                      {cartCount}
+                      {totalItems}
                     </span>
                   )}
                 </motion.button>
