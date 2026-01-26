@@ -6,8 +6,6 @@ export interface Product {
   team: string;
   year?: string;
   image: string;
-  stock: number;
-  limitedEdition?: boolean;
   description: string;
   sizes: string[];
 }
@@ -21,10 +19,8 @@ export const products: Product[] = [
     category: 'club',
     team: 'Barcelona',
     year: '2025',
-    image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=600',
-    stock: 25,
-    description: 'New season Blaugrana home jersey featuring the iconic stripes with modern performance fabric.',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
+    image: 'https://barcelonashirt.co.uk/cdn/shop/files/barcelona-2025-26-home-kit-shirt-1.png',
+    description: 'New season Blaugrana home jersey featuring the iconic stripes with modern performance fabric.'
   },
   {
     id: '2',
@@ -33,10 +29,8 @@ export const products: Product[] = [
     category: 'club',
     team: 'Real Madrid',
     year: '2025',
-    image: 'https://images.unsplash.com/photo-1578158032457-9376dc91c1dc?w=600',
-    stock: 30,
-    description: 'Pure white excellence for the new season. Champions League glory awaits.',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
+    image: 'https://www.madridflagshipstore.com/media/catalog/product/cache/1/image/1000x/9df78eab33525d08d6e5fb8d27136e95/r/m/rmdf2526_01.jpg',
+    description: 'Pure white excellence for the new season. Champions League glory awaits.'
   },
   {
     id: '3',
@@ -46,9 +40,7 @@ export const products: Product[] = [
     team: 'Manchester United',
     year: '2025',
     image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=600',
-    stock: 22,
-    description: 'Iconic red devil jersey for the new era at Old Trafford.',
-    sizes: ['S', 'M', 'L', 'XL']
+    description: 'Iconic red devil jersey for the new era at Old Trafford.'
   },
   {
     id: '4',
@@ -58,9 +50,7 @@ export const products: Product[] = [
     team: 'Arsenal',
     year: '2025',
     image: 'https://images.unsplash.com/photo-1578158032457-9376dc91c1dc?w=600',
-    stock: 18,
-    description: 'Bold new third kit featuring premium tech fleece for ultimate comfort.',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
+    description: 'Bold new third kit featuring premium tech fleece for ultimate comfort.'
   },
   // Retro Jerseys
   {
@@ -70,11 +60,8 @@ export const products: Product[] = [
     category: 'retro',
     team: 'AC Milan',
     year: '2007',
-    image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=600',
-    stock: 8,
-    limitedEdition: true,
-    description: 'The legendary jersey from Milan\'s 6th Champions League trophy. Featuring Kaká, Pirlo, and Seedorf.',
-    sizes: ['S', 'M', 'L', 'XL']
+    image: 'https://i.imgur.com/AC Milan 2006-07.jpg',
+    description: 'The legendary jersey from Milan\'s 6th Champions League trophy. Featuring Kaká, Pirlo, and Seedorf.'
   },
   {
     id: '6',
@@ -83,11 +70,8 @@ export const products: Product[] = [
     category: 'retro',
     team: 'England',
     year: '2006',
-    image: 'https://images.unsplash.com/photo-1607417307259-afd87bdf92a5?w=600',
-    stock: 10,
-    limitedEdition: true,
-    description: 'Classic white shirt from Germany 2006. Beckham, Rooney, and Gerrard era.',
-    sizes: ['S', 'M', 'L', 'XL']
+    image: 'https://i.imgur.com/England 2006.jpg',
+    description: 'Classic white shirt from Germany 2006. Beckham, Rooney, and Gerrard era.'
   },
   // International 25-26
   {
@@ -98,9 +82,7 @@ export const products: Product[] = [
     team: 'Argentina',
     year: '2025',
     image: 'https://images.unsplash.com/photo-1607417307259-afd87bdf92a5?w=600',
-    stock: 15,
-    description: 'New season Albiceleste jersey. Continuing the legacy of World Cup champions.',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
+    description: 'New season Albiceleste jersey. Continuing the legacy of World Cup champions.'
   },
   {
     id: '8',
@@ -110,9 +92,7 @@ export const products: Product[] = [
     team: 'England',
     year: '2025',
     image: 'https://images.unsplash.com/photo-1607417307259-afd87bdf92a5?w=600',
-    stock: 20,
-    description: 'Three Lions new home kit. Hope and glory for the upcoming tournaments.',
-    sizes: ['S', 'M', 'L', 'XL']
+    description: 'Three Lions new home kit. Hope and glory for the upcoming tournaments.'
   }
 ];
 
