@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { useCart } from '@/app/context/CartContext';
-import { ArrowLeft, CreditCard, Lock, Check, Truck, Shield } from 'lucide-react';
+import { ArrowLeft, Lock, Check, Truck, Shield } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -14,7 +14,6 @@ export function Checkout() {
   const { items, totalPrice, clearCart } = useCart();
   const navigate = useNavigate();
   const [step, setStep] = useState<'shipping' | 'payment' | 'success'>('shipping');
-  const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'card'>('razorpay');
   const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -50,9 +49,9 @@ export function Checkout() {
   const handleRazorpayPayment = () => {
     setIsProcessing(true);
     
-    // Razorpay integration - Replace with your actual Razorpay key
+    // Razorpay integration
     const options = {
-      key: 'rzp_live_S7lrNBZwLJnG0c', // Replace with your Razorpay Key ID
+      key: 'YOUR_RAZORPAY_KEY_ID', // Replace with your Razorpay Key ID
       amount: Math.round(grandTotal * 100), // Amount in paise
       currency: 'INR',
       name: 'RetroKick',
@@ -77,7 +76,6 @@ export function Checkout() {
       },
     };
 
-    // Check if Razorpay is loaded
     if (window.Razorpay) {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
@@ -86,21 +84,9 @@ export function Checkout() {
         alert('Payment failed. Please try again.');
       });
     } else {
-      // Fallback if Razorpay script is not loaded
       setIsProcessing(false);
       alert('Razorpay is not loaded. Please include the Razorpay script in your HTML.');
     }
-  };
-
-  const handleCardPayment = () => {
-    setIsProcessing(true);
-    // Simulate card payment processing
-    setTimeout(() => {
-      setIsProcessing(false);
-      setStep('success');
-      clearCart();
-      setTimeout(() => navigate('/'), 5000);
-    }, 2000);
   };
 
   if (items.length === 0 && step !== 'success') {
@@ -176,7 +162,6 @@ export function Checkout() {
   return (
     <div className="min-h-screen bg-[#0a0a0f] pt-32 pb-20 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Back Button */}
         {step === 'payment' && (
           <motion.button
             whileHover={{ x: -5 }}
@@ -196,7 +181,6 @@ export function Checkout() {
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Form Section */}
           <div className="lg:col-span-2">
             {step === 'shipping' ? (
               <motion.form
@@ -328,7 +312,7 @@ export function Checkout() {
                 <div className="p-6 rounded-2xl bg-[#1a1a2e] border border-white/10">
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-2xl text-white font-bold uppercase" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>
-                      Payment Method
+                      Pay with Razorpay
                     </h2>
                     <div className="flex items-center space-x-2 text-white/50">
                       <Lock className="w-4 h-4" />
@@ -336,166 +320,43 @@ export function Checkout() {
                     </div>
                   </div>
 
-                  {/* Payment Method Selection */}
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setPaymentMethod('razorpay')}
-                      className={`p-4 rounded-xl border-2 transition-all ${
-                        paymentMethod === 'razorpay'
-                          ? 'border-[#00ff9d] bg-[#00ff9d]/10'
-                          : 'border-white/10 hover:border-white/30'
-                      }`}
-                    >
-                      <div className="text-center">
-                        <div className="text-2xl mb-2">💳</div>
-                        <p className="text-white font-bold">Razorpay</p>
-                        <p className="text-white/50 text-xs mt-1">UPI, Cards, Netbanking</p>
-                      </div>
-                    </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setPaymentMethod('card')}
-                      className={`p-4 rounded-xl border-2 transition-all ${
-                        paymentMethod === 'card'
-                          ? 'border-[#00ff9d] bg-[#00ff9d]/10'
-                          : 'border-white/10 hover:border-white/30'
-                      }`}
-                    >
-                      <div className="text-center">
-                        <CreditCard className="w-8 h-8 text-white mx-auto mb-2" />
-                        <p className="text-white font-bold">Card Payment</p>
-                        <p className="text-white/50 text-xs mt-1">Credit / Debit Card</p>
-                      </div>
-                    </motion.button>
+                  <div className="p-4 rounded-xl bg-[#0a0a0f] border border-white/10 mb-6">
+                    <h3 className="text-white font-bold mb-3">Secure Payment via Razorpay</h3>
+                    <p className="text-white/50 text-sm mb-4">Accepts UPI, Credit/Debit Cards, Netbanking, Wallets</p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-3 py-1 bg-white/10 rounded text-white/70 text-xs">UPI</span>
+                      <span className="px-3 py-1 bg-white/10 rounded text-white/70 text-xs">Visa</span>
+                      <span className="px-3 py-1 bg-white/10 rounded text-white/70 text-xs">Mastercard</span>
+                      <span className="px-3 py-1 bg-white/10 rounded text-white/70 text-xs">RuPay</span>
+                      <span className="px-3 py-1 bg-white/10 rounded text-white/70 text-xs">Netbanking</span>
+                    </div>
                   </div>
 
-                  {paymentMethod === 'razorpay' ? (
-                    <div className="space-y-4">
-                      <div className="p-4 rounded-xl bg-[#0a0a0f] border border-white/10">
-                        <h3 className="text-white font-bold mb-3">Pay securely with Razorpay</h3>
-                        <p className="text-white/50 text-sm mb-4">Accepts UPI, Credit/Debit Cards, Netbanking, Wallets</p>
-                        <div className="flex flex-wrap gap-2">
-                          <span className="px-3 py-1 bg-white/10 rounded text-white/70 text-xs">UPI</span>
-                          <span className="px-3 py-1 bg-white/10 rounded text-white/70 text-xs">Visa</span>
-                          <span className="px-3 py-1 bg-white/10 rounded text-white/70 text-xs">Mastercard</span>
-                          <span className="px-3 py-1 bg-white/10 rounded text-white/70 text-xs">RuPay</span>
-                          <span className="px-3 py-1 bg-white/10 rounded text-white/70 text-xs">Netbanking</span>
-                        </div>
-                      </div>
-
-                      <motion.button
-                        whileHover={{ scale: isProcessing ? 1 : 1.02 }}
-                        whileTap={{ scale: isProcessing ? 1 : 0.98 }}
-                        onClick={handleRazorpayPayment}
-                        disabled={isProcessing}
-                        className="w-full py-4 bg-gradient-to-r from-[#3399ff] to-[#00d4ff] text-white font-bold rounded-lg text-lg uppercase tracking-wider flex items-center justify-center space-x-2 disabled:opacity-50"
-                        style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-                      >
-                        {isProcessing ? (
-                          <>
-                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                            <span>Processing...</span>
-                          </>
-                        ) : (
-                          <>
-                            <span className="text-xl">⚡</span>
-                            <span>Pay ₹{grandTotal.toLocaleString('en-IN')}</span>
-                          </>
-                        )}
-                      </motion.button>
-                    </div>
-                  ) : (
-                    <form onSubmit={(e) => { e.preventDefault(); handleCardPayment(); }} className="space-y-4">
-                      <div>
-                        <label className="block text-white/70 mb-2 text-sm">Card Number</label>
-                        <div className="relative">
-                          <input
-                            type="text"
-                            name="cardNumber"
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/\s/g, '').replace(/(\d{4})/g, '$1 ').trim().slice(0, 19);
-                              setFormData(prev => ({ ...prev, cardNumber: value }));
-                            }}
-                            required
-                            className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-lg text-white focus:border-[#00ff9d] focus:outline-none transition-colors pr-12"
-                            placeholder="1234 5678 9012 3456"
-                          />
-                          <CreditCard className="w-6 h-6 text-white/50 absolute right-4 top-1/2 -translate-y-1/2" />
-                        </div>
-                      </div>
-                      <div>
-                        <label className="block text-white/70 mb-2 text-sm">Name on Card</label>
-                        <input
-                          type="text"
-                          name="cardName"
-                          onChange={(e) => setFormData(prev => ({ ...prev, cardName: e.target.value }))}
-                          required
-                          className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-lg text-white focus:border-[#00ff9d] focus:outline-none transition-colors"
-                          placeholder="JOHN DOE"
-                        />
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-white/70 mb-2 text-sm">Expiry Date</label>
-                          <input
-                            type="text"
-                            name="expiry"
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/\D/g, '').replace(/(\d{2})(\d)/, '$1/$2').slice(0, 5);
-                              setFormData(prev => ({ ...prev, expiry: value }));
-                            }}
-                            required
-                            className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-lg text-white focus:border-[#00ff9d] focus:outline-none transition-colors"
-                            placeholder="MM/YY"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-white/70 mb-2 text-sm">CVV</label>
-                          <input
-                            type="text"
-                            name="cvv"
-                            onChange={(e) => {
-                              const value = e.target.value.replace(/\D/g, '').slice(0, 3);
-                              setFormData(prev => ({ ...prev, cvv: value }));
-                            }}
-                            required
-                            className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-lg text-white focus:border-[#00ff9d] focus:outline-none transition-colors"
-                            placeholder="123"
-                          />
-                        </div>
-                      </div>
-
-                      <motion.button
-                        type="submit"
-                        whileHover={{ scale: isProcessing ? 1 : 1.02 }}
-                        whileTap={{ scale: isProcessing ? 1 : 0.98 }}
-                        disabled={isProcessing}
-                        className="w-full py-4 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg text-lg uppercase tracking-wider flex items-center justify-center space-x-2 disabled:opacity-50"
-                        style={{ fontFamily: "'Bebas Neue', sans-serif" }}
-                      >
-                        {isProcessing ? (
-                          <>
-                            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                            <span>Processing...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Lock className="w-5 h-5" />
-                            <span>Pay ₹{grandTotal.toLocaleString('en-IN')}</span>
-                          </>
-                        )}
-                      </motion.button>
-                    </form>
-                  )}
+                  <motion.button
+                    whileHover={{ scale: isProcessing ? 1 : 1.02 }}
+                    whileTap={{ scale: isProcessing ? 1 : 0.98 }}
+                    onClick={handleRazorpayPayment}
+                    disabled={isProcessing}
+                    className="w-full py-4 bg-gradient-to-r from-[#3399ff] to-[#00d4ff] text-white font-bold rounded-lg text-lg uppercase tracking-wider flex items-center justify-center space-x-2 disabled:opacity-50"
+                    style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+                  >
+                    {isProcessing ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <span>Processing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-xl">⚡</span>
+                        <span>Pay ₹{grandTotal.toLocaleString('en-IN')}</span>
+                      </>
+                    )}
+                  </motion.button>
                 </div>
               </motion.div>
             )}
           </div>
 
-          {/* Order Summary */}
           <div className="lg:col-span-1">
             <motion.div
               initial={{ opacity: 0, x: 30 }}
