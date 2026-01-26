@@ -13,169 +13,123 @@ export interface Product {
 }
 
 export const products: Product[] = [
+  // Club Jerseys 25-26
   {
     id: '1',
-    name: 'Brazil 1970 World Cup Jersey',
-    price: 8999,
-    category: 'retro',
-    team: 'Brazil',
-    year: '1970',
-    image: 'https://images.unsplash.com/photo-1578158032457-9376dc91c1dc?w=600',
-    stock: 12,
-    limitedEdition: true,
-    description: 'Iconic yellow jersey worn by Pelé during the legendary 1970 World Cup victory.',
+    name: 'Barcelona Home 2025-26',
+    price: 6999,
+    category: 'club',
+    team: 'Barcelona',
+    year: '2025',
+    image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=600',
+    stock: 25,
+    description: 'New season Blaugrana home jersey featuring the iconic stripes with modern performance fabric.',
     sizes: ['S', 'M', 'L', 'XL', 'XXL']
   },
   {
     id: '2',
-    name: 'Manchester United Retro 99',
+    name: 'Real Madrid Home 2025-26',
     price: 7499,
-    category: 'retro',
-    team: 'Manchester United',
-    year: '1999',
-    image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=600',
-    stock: 8,
-    limitedEdition: true,
-    description: 'Treble-winning season jersey - a true piece of football history.',
-    sizes: ['S', 'M', 'L', 'XL']
+    category: 'club',
+    team: 'Real Madrid',
+    year: '2025',
+    image: 'https://images.unsplash.com/photo-1578158032457-9376dc91c1dc?w=600',
+    stock: 30,
+    description: 'Pure white excellence for the new season. Champions League glory awaits.',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL']
   },
   {
     id: '3',
-    name: 'AC Milan Home Jersey 2024',
+    name: 'Manchester United 2025-26',
     price: 6999,
     category: 'club',
-    team: 'AC Milan',
+    team: 'Manchester United',
+    year: '2025',
     image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=600',
-    stock: 25,
-    description: 'Classic Rossoneri stripes - the spirit of San Siro in every thread.',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
+    stock: 22,
+    description: 'Iconic red devil jersey for the new era at Old Trafford.',
+    sizes: ['S', 'M', 'L', 'XL']
   },
   {
     id: '4',
-    name: 'Argentina 2022 World Cup',
-    price: 9999,
-    category: 'international',
-    team: 'Argentina',
-    year: '2022',
-    image: 'https://images.unsplash.com/photo-1607417307259-afd87bdf92a5?w=600',
-    stock: 5,
-    limitedEdition: true,
-    description: 'Championship-winning jersey from Qatar 2022 - Messi\'s ultimate triumph.',
-    sizes: ['S', 'M', 'L', 'XL']
+    name: 'Arsenal Third Kit 2025-26',
+    price: 6499,
+    category: 'club',
+    team: 'Arsenal',
+    year: '2025',
+    image: 'https://images.unsplash.com/photo-1578158032457-9376dc91c1dc?w=600',
+    stock: 18,
+    description: 'Bold new third kit featuring premium tech fleece for ultimate comfort.',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL']
   },
+  // Retro Jerseys
   {
     id: '5',
-    name: 'Real Madrid Galácticos 2003',
-    price: 7999,
+    name: 'AC Milan 2006-07 Retro',
+    price: 8999,
     category: 'retro',
-    team: 'Real Madrid',
-    year: '2003',
-    image: 'https://images.unsplash.com/photo-1578158032457-9376dc91c1dc?w=600',
-    stock: 15,
-    description: 'Worn by legends like Zidane, Ronaldo, and Beckham in their prime.',
-    sizes: ['M', 'L', 'XL', 'XXL']
+    team: 'AC Milan',
+    year: '2007',
+    image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=600',
+    stock: 8,
+    limitedEdition: true,
+    description: 'The legendary jersey from Milan\'s 6th Champions League trophy. Featuring Kaká, Pirlo, and Seedorf.',
+    sizes: ['S', 'M', 'L', 'XL']
   },
   {
     id: '6',
-    name: 'Barcelona Home 2024',
-    price: 6499,
-    category: 'club',
-    team: 'Barcelona',
-    image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=600',
-    stock: 30,
-    description: 'Blaugrana colors with modern performance fabric - more than a club.',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
-  },
-  {
-    id: '7',
-    name: 'Germany 1990 World Cup',
+    name: 'England 2006 World Cup Retro',
     price: 8499,
     category: 'retro',
-    team: 'Germany',
-    year: '1990',
-    image: 'https://images.unsplash.com/photo-1697736667820-84fc04ef7462?w=600',
+    team: 'England',
+    year: '2006',
+    image: 'https://images.unsplash.com/photo-1607417307259-afd87bdf92a5?w=600',
     stock: 10,
     limitedEdition: true,
-    description: 'Championship jersey from Italia \'90 - timeless German engineering.',
+    description: 'Classic white shirt from Germany 2006. Beckham, Rooney, and Gerrard era.',
     sizes: ['S', 'M', 'L', 'XL']
+  },
+  // International 25-26
+  {
+    id: '7',
+    name: 'Argentina 2025-26 Home',
+    price: 7999,
+    category: 'international',
+    team: 'Argentina',
+    year: '2025',
+    image: 'https://images.unsplash.com/photo-1607417307259-afd87bdf92a5?w=600',
+    stock: 15,
+    description: 'New season Albiceleste jersey. Continuing the legacy of World Cup champions.',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL']
   },
   {
     id: '8',
-    name: 'France 2018 World Cup',
-    price: 9499,
+    name: 'England 2025-26 Home',
+    price: 7499,
     category: 'international',
-    team: 'France',
-    year: '2018',
+    team: 'England',
+    year: '2025',
     image: 'https://images.unsplash.com/photo-1607417307259-afd87bdf92a5?w=600',
-    stock: 18,
-    description: 'Les Bleus\' victorious jersey from Russia 2018 - Mbappé\'s breakthrough.',
-    sizes: ['S', 'M', 'L', 'XL', 'XXL']
-  },
-  {
-    id: '9',
-    name: 'Liverpool Home 2024',
-    price: 6899,
-    category: 'club',
-    team: 'Liverpool',
-    image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=600',
-    stock: 22,
-    description: 'You\'ll Never Walk Alone - legendary red with modern performance tech.',
+    stock: 20,
+    description: 'Three Lions new home kit. Hope and glory for the upcoming tournaments.',
     sizes: ['S', 'M', 'L', 'XL']
-  },
-  {
-    id: '10',
-    name: 'Italy Azzurri 2020',
-    price: 8999,
-    category: 'international',
-    team: 'Italy',
-    year: '2021',
-    image: 'https://images.unsplash.com/photo-1657957746418-6a38df9e1ea7?w=600',
-    stock: 14,
-    description: 'Euro 2020 champions - the pride of Italian football reborn.',
-    sizes: ['M', 'L', 'XL', 'XXL']
-  },
-  {
-    id: '11',
-    name: 'Arsenal Invincibles 2004',
-    price: 8499,
-    category: 'retro',
-    team: 'Arsenal',
-    year: '2004',
-    image: 'https://images.unsplash.com/photo-1578158032457-9376dc91c1dc?w=600',
-    stock: 7,
-    limitedEdition: true,
-    description: 'Unbeaten season jersey - Henry, Bergkamp, and Vieira\'s masterpiece.',
-    sizes: ['S', 'M', 'L', 'XL']
-  },
-  {
-    id: '12',
-    name: 'Netherlands 1988 Euro',
-    price: 7999,
-    category: 'retro',
-    team: 'Netherlands',
-    year: '1988',
-    image: 'https://images.unsplash.com/photo-1697736667820-84fc04ef7462?w=600',
-    stock: 9,
-    limitedEdition: true,
-    description: 'Van Basten\'s legendary volley jersey - Total Football at its peak.',
-    sizes: ['M', 'L', 'XL']
   }
 ];
 
 export const categories = [
-  {
-    id: 'retro',
-    name: 'Retro Jerseys',
-    description: 'Timeless classics from football\'s golden eras',
-    image: 'https://images.unsplash.com/photo-1697736667820-84fc04ef7462?w=800',
-    count: products.filter(p => p.category === 'retro').length
-  },
   {
     id: 'club',
     name: 'Club Jerseys',
     description: 'Support your favorite teams with official gear',
     image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=800',
     count: products.filter(p => p.category === 'club').length
+  },
+  {
+    id: 'retro',
+    name: 'Retro Jerseys',
+    description: 'Timeless classics from football\'s golden eras',
+    image: 'https://images.unsplash.com/photo-1697736667820-84fc04ef7462?w=800',
+    count: products.filter(p => p.category === 'retro').length
   },
   {
     id: 'international',
@@ -191,7 +145,7 @@ export const testimonials = [
     id: '1',
     name: 'Rajesh Kumar',
     role: 'Football Enthusiast',
-    content: 'Amazing quality! The Brazil 1970 jersey is exactly what I wanted. Authentic feel and great material.',
+    content: 'Amazing quality! The retro jerseys are exactly what I wanted. Authentic feel and great material.',
     rating: 5,
     image: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=100'
   },
@@ -207,8 +161,9 @@ export const testimonials = [
     id: '3',
     name: 'Arjun Patel',
     role: 'Manchester United Fan',
-    content: 'The Treble 99 jersey brought back so many memories. Perfect fit and authentic design. Highly recommend!',
+    content: 'The new season jersey is amazing. Perfect fit and authentic design. Highly recommend!',
     rating: 5,
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100'
   }
 ];
+
