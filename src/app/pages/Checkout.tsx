@@ -15,7 +15,6 @@ export function Checkout() {
   const navigate = useNavigate();
   const [step, setStep] = useState<'shipping' | 'payment' | 'success'>('shipping');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [razorpayKey, setRazorpayKey] = useState('');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -322,21 +321,6 @@ export function Checkout() {
                     </div>
                   </div>
 
-                  {/* Razorpay Key Input */}
-                  <div className="mb-6">
-                    <label className="block text-white/70 mb-2 text-sm">Razorpay Key ID</label>
-                    <input
-                      type="text"
-                      value={razorpayKey}
-                      onChange={(e) => setRazorpayKey(e.target.value)}
-                      placeholder="rzp_test_xxxxxxxxxxxxx"
-                      className="w-full px-4 py-3 bg-[#0a0a0f] border border-white/10 rounded-lg text-white focus:border-[#00ff9d] focus:outline-none transition-colors"
-                    />
-                    <p className="text-white/50 text-xs mt-2">
-                      Get your key from <a href="https://dashboard.razorpay.com/app/settings" target="_blank" className="text-[#00ff9d] hover:underline">Razorpay Dashboard</a>
-                    </p>
-                  </div>
-
                   <div className="p-4 rounded-xl bg-[#0a0a0f] border border-white/10 mb-6">
                     <h3 className="text-white font-bold mb-3">Secure Payment via Razorpay</h3>
                     <p className="text-white/50 text-sm mb-4">Accepts UPI, Credit/Debit Cards, Netbanking, Wallets</p>
@@ -352,51 +336,7 @@ export function Checkout() {
                   <motion.button
                     whileHover={{ scale: isProcessing ? 1 : 1.02 }}
                     whileTap={{ scale: isProcessing ? 1 : 0.98 }}
-                    onClick={() => {
-                      if (!razorpayKey) {
-                        alert('Please enter your Razorpay Key ID');
-                        return;
-                      }
-                      // Create options with the user-provided key
-                      const options = {
-                        key: razorpayKey,
-                        amount: Math.round(grandTotal * 100),
-                        currency: 'INR',
-                        name: 'RetroKick',
-                        description: `Order for ${items.length} item(s)`,
-                        image: 'https://retrokick.com/logo.png',
-                        handler: (response: any) => {
-                          setIsProcessing(false);
-                          setStep('success');
-                          clearCart();
-                          setTimeout(() => navigate('/'), 5000);
-                        },
-                        prefill: {
-                          name: `${formData.firstName} ${formData.lastName}`,
-                          email: formData.email,
-                          contact: formData.phone,
-                        },
-                        notes: {
-                          address: `${formData.address}, ${formData.city}, ${formData.state} - ${formData.pincode}`,
-                        },
-                        theme: {
-                          color: '#00ff9d',
-                        },
-                      };
-
-                      if (window.Razorpay) {
-                        setIsProcessing(true);
-                        const razorpay = new window.Razorpay(options);
-                        razorpay.open();
-                        razorpay.on('payment.failed', (response: any) => {
-                          setIsProcessing(false);
-                          const errorMsg = response.error?.description || response.error?.reason || 'Payment failed';
-                          alert('Payment Failed: ' + errorMsg);
-                        });
-                      } else {
-                        alert('Razorpay is not loaded. Please include the Razorpay script in your HTML.');
-                      }
-                    }}
+                    onClick={handleRazorpayPayment}
                     disabled={isProcessing}
                     className="w-full py-4 bg-gradient-to-r from-[#3399ff] to-[#00d4ff] text-white font-bold rounded-lg text-lg uppercase tracking-wider flex items-center justify-center space-x-2 disabled:opacity-50"
                     style={{ fontFamily: "'Bebas Neue', sans-serif" }}
