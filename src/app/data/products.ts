@@ -6,6 +6,7 @@ export interface Product {
   team: string;
   year?: string;
   image: string;
+  backImage?: string;
   description: string;
   sizes: string[];
 }
@@ -19,7 +20,8 @@ export const products: Product[] = [
     category: 'club',
     team: 'Barcelona',
     year: '2025',
-    image: 'https://barcelonashirt.co.uk/cdn/shop/files/barcelona-2025-26-home-kit-shirt-1.png',
+image: '/Jerseys/Barca_Front.png',
+    backImage: '/Jerseys/Barca_Back.png',
     description: 'New season Blaugrana home jersey featuring the iconic stripes with modern performance fabric.'
   },
   {
@@ -30,6 +32,7 @@ export const products: Product[] = [
     team: 'Real Madrid',
     year: '2025',
     image: 'https://www.madridflagshipstore.com/media/catalog/product/cache/1/image/1000x/9df78eab33525d08d6e5fb8d27136e95/r/m/rmdf2526_01.jpg',
+    backImage: '',
     description: 'Pure white excellence for the new season. Champions League glory awaits.'
   },
   {
@@ -39,7 +42,8 @@ export const products: Product[] = [
     category: 'club',
     team: 'Manchester United',
     year: '2025',
-    image: 'https://images.unsplash.com/photo-1616124619460-ff4ed8f4683c?w=600',
+    image: '',
+    backImage: '',
     description: 'Iconic red devil jersey for the new era at Old Trafford.'
   },
   {
@@ -49,7 +53,8 @@ export const products: Product[] = [
     category: 'club',
     team: 'Arsenal',
     year: '2025',
-    image: 'https://images.unsplash.com/photo-1578158032457-9376dc91c1dc?w=600',
+    image: '',
+    backImage: '',
     description: 'Bold new third kit featuring premium tech fleece for ultimate comfort.'
   },
   // Retro Jerseys
@@ -60,7 +65,8 @@ export const products: Product[] = [
     category: 'retro',
     team: 'AC Milan',
     year: '2007',
-    image: 'https://i.imgur.com/AC Milan 2006-07.jpg',
+    image: '',
+    backImage: '',
     description: 'The legendary jersey from Milan\'s 6th Champions League trophy. Featuring Kaká, Pirlo, and Seedorf.'
   },
   {
@@ -70,7 +76,8 @@ export const products: Product[] = [
     category: 'retro',
     team: 'England',
     year: '2006',
-    image: 'https://i.imgur.com/England 2006.jpg',
+    image: '',
+    backImage: '',
     description: 'Classic white shirt from Germany 2006. Beckham, Rooney, and Gerrard era.'
   },
   // International 25-26
@@ -81,7 +88,8 @@ export const products: Product[] = [
     category: 'international',
     team: 'Argentina',
     year: '2025',
-    image: 'https://images.unsplash.com/photo-1607417307259-afd87bdf92a5?w=600',
+    image: '',
+    backImage: '',
     description: 'New season Albiceleste jersey. Continuing the legacy of World Cup champions.'
   },
   {
@@ -91,7 +99,8 @@ export const products: Product[] = [
     category: 'international',
     team: 'England',
     year: '2025',
-    image: 'https://images.unsplash.com/photo-1607417307259-afd87bdf92a5?w=600',
+    image: '',
+    backImage: '',
     description: 'Three Lions new home kit. Hope and glory for the upcoming tournaments.'
   }
 ];

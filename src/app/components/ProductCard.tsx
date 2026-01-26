@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ShoppingCart, Heart, Eye } from 'lucide-react';
 import { Product } from '@/app/data/products';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useCart } from '@/app/context/CartContext';
 
 interface ProductCardProps {
@@ -10,17 +10,36 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
+  const [hoverPosition, setHoverPosition] = useState<'left' | 'right' | null>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
   const { addItem } = useCart();
-  const [selectedSize, setSelectedSize] = useState('');
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imageRef.current) return;
+    
+    const rect = imageRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const width = rect.width;
+    
+    if (x < width / 2) {
+      setHoverPosition('left');
+    } else {
+      setHoverPosition('right');
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setHoverPosition(null);
+  };
+
+  const showBackImage = hoverPosition === 'right' && product.backImage;
+  const showFrontImage = hoverPosition === 'left' || !product.backImage;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
       className="group relative"
     >
       <Link to={`/product/${product.id}`}>
@@ -29,20 +48,45 @@ export function ProductCard({ product }: ProductCardProps) {
           transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           className="relative rounded-2xl overflow-hidden bg-[#1a1a2e] border border-white/10"
           style={{
-            boxShadow: isHovered
-              ? '0 20px 60px rgba(0, 255, 157, 0.2), 0 0 40px rgba(0, 217, 255, 0.1)'
-              : '0 4px 20px rgba(0, 0, 0, 0.3)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
           }}
         >
-          {/* Image Container */}
-          <div className="relative aspect-square overflow-hidden bg-[#0d1b3a]">
-            <motion.img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-full object-cover"
-              animate={{ scale: isHovered ? 1.1 : 1 }}
-              transition={{ duration: 0.4 }}
-            />
+          {/* Image Container with Front/Back Hover Effect */}
+          <div 
+            ref={imageRef}
+            className="relative aspect-square overflow-hidden bg-[#0d1b3a]"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
+            {/* Front Image */}
+            {product.image && (
+              <motion.img
+                src={product.image}
+                alt={`${product.name} - Front`}
+                className="absolute inset-0 w-full h-full object-cover"
+                animate={{ opacity: showBackImage ? 0 : 1, scale: 1 }}
+                transition={{ duration: 0.2 }}
+              />
+            )}
+            
+            {/* Back Image */}
+            {product.backImage && (
+              <motion.img
+                src={product.backImage}
+                alt={`${product.name} - Back`}
+                className="absolute inset-0 w-full h-full object-cover"
+                animate={{ opacity: showBackImage ? 1 : 0, scale: 1 }}
+                transition={{ duration: 0.2 }}
+              />
+            )}
+
+            {/* Hover Indicator */}
+            {product.backImage && (
+              <div className="absolute bottom-2 left-2 right-2 flex justify-between text-xs text-white/50 pointer-events-none">
+                <span className={hoverPosition === 'left' ? 'text-[#00ff9d]' : ''}>← Front</span>
+                <span className={hoverPosition === 'right' ? 'text-[#00ff9d]' : ''}>Back →</span>
+              </div>
+            )}
 
             {/* Overlay Gradient */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -50,8 +94,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {/* Quick Actions */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }}
-              transition={{ duration: 0.3 }}
+              animate={{ opacity: 1, y: 0 }}
               className="absolute bottom-4 right-4 flex space-x-2"
             >
               <motion.button
@@ -114,9 +157,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {/* Hover Glow Effect */}
           <motion.div
             className="absolute inset-0 pointer-events-none"
-            animate={{
-              opacity: isHovered ? 1 : 0,
-            }}
+            animate={{ opacity: 1 }}
             style={{
               background:
                 'radial-gradient(circle at 50% 50%, rgba(0, 255, 157, 0.1) 0%, transparent 70%)',

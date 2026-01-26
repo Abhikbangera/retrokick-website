@@ -2,12 +2,14 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { products } from '@/app/data/products';
 import { ShoppingCart, Heart, Star, Truck, Shield, ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export function ProductDetails() {
   const { id } = useParams();
   const product = products.find((p) => p.id === id);
   const [selectedSize, setSelectedSize] = useState('');
+  const [hoverPosition, setHoverPosition] = useState<'left' | 'right' | null>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   if (!product) {
     return (
@@ -21,6 +23,27 @@ export function ProductDetails() {
       </div>
     );
   }
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imageRef.current || !product.backImage) return;
+    
+    const rect = imageRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const width = rect.width;
+    
+    if (x < width / 2) {
+      setHoverPosition('left');
+    } else {
+      setHoverPosition('right');
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setHoverPosition(null);
+  };
+
+  const showBackImage = hoverPosition === 'right' && product.backImage;
+  const showFrontImage = hoverPosition === 'left' || !product.backImage;
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] pt-32 pb-20 px-4 md:px-8">
@@ -43,12 +66,45 @@ export function ProductDetails() {
             animate={{ opacity: 1, x: 0 }}
             className="relative"
           >
-            <div className="relative rounded-2xl overflow-hidden aspect-square bg-[#0d1b3a]">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
+            <div 
+              ref={imageRef}
+              className="relative rounded-2xl overflow-hidden aspect-square bg-[#0d1b3a]"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              {/* Front Image */}
+              {product.image && (
+                <motion.img
+                  src={product.image}
+                  alt={`${product.name} - Front`}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  animate={{ opacity: showBackImage ? 0 : 1 }}
+                  transition={{ duration: 0.2 }}
+                />
+              )}
+              
+              {/* Back Image */}
+              {product.backImage && (
+                <motion.img
+                  src={product.backImage}
+                  alt={`${product.name} - Back`}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  animate={{ opacity: showBackImage ? 1 : 0 }}
+                  transition={{ duration: 0.2 }}
+                />
+              )}
+
+              {/* Hover Indicator */}
+              {product.backImage && (
+                <div className="absolute bottom-4 left-4 right-4 flex justify-between text-sm text-white/60 pointer-events-none">
+                  <span className={`flex items-center ${hoverPosition === 'left' ? 'text-[#00ff9d]' : ''}`}>
+                    <span className="mr-2">←</span> Front
+                  </span>
+                  <span className={`flex items-center ${hoverPosition === 'right' ? 'text-[#00ff9d]' : ''}`}>
+                    Back <span className="ml-2">→</span>
+                  </span>
+                </div>
+              )}
             </div>
           </motion.div>
 
