@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/AuthContext';
-import { ArrowLeft, Lock, Check, Truck, Shield } from 'lucide-react';
+import { createOrder } from '@/app/services/api';
+import { ArrowLeft, Lock, Check, Truck, Shield, Mail } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -17,6 +18,8 @@ export function Checkout() {
   const navigate = useNavigate();
   const [step, setStep] = useState<'shipping' | 'payment' | 'success'>('shipping');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [orderId, setOrderId] = useState('');
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -57,7 +60,8 @@ export function Checkout() {
 
   const handleRazorpayPayment = () => {
     setIsProcessing(true);
-    
+    setError('');
+
     // Razorpay integration
     const options = {
       key: 'rzp_live_S7lrNBZwLJnG0c', // Replace with your Razorpay Key ID
@@ -66,11 +70,56 @@ export function Checkout() {
       name: 'RetroKick',
       description: `Order for ${items.length} item(s)`,
       image: 'https://retrokick.com/logo.png',
-      handler: (response: any) => {
+      handler: async (response: any) => {
+        try {
+          // Create order in backend and send emails
+          const orderData = {
+            items: items.map(item => ({
+              product: {
+                id: item.product.id,
+                name: item.product.name,
+                price: item.product.price,
+                image: item.product.image
+              },
+              quantity: item.quantity,
+              selectedSize: item.selectedSize
+            })),
+            shippingInfo: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              email: formData.email,
+              phone: formData.phone,
+              address: formData.address,
+              city: formData.city,
+              state: formData.state,
+              pincode: formData.pincode
+            },
+            subtotal: totalPrice,
+            shippingCost: shipping,
+            tax: tax,
+            grandTotal: grandTotal,
+            paymentMethod: 'Razorpay - ' + response.razorpay_payment_id
+          };
+
+          const result = await createOrder(orderData);
+
+          if (result.success) {
+            setOrderId(result.orderId);
+            setStep('success');
+            clearCart();
+          } else {
+            setError('Order saved but email notification failed. Contact support.');
+            setOrderId(result.orderId || 'PENDING');
+            setStep('success');
+            clearCart();
+          }
+        } catch (err: any) {
+          console.error('Order creation error:', err);
+          setError('Payment successful but order processing failed. Please contact support with your payment ID: ' + response.razorpay_payment_id);
+          setStep('success');
+          clearCart();
+        }
         setIsProcessing(false);
-        setStep('success');
-        clearCart();
-        setTimeout(() => navigate('/'), 5000);
       },
       prefill: {
         name: `${formData.firstName} ${formData.lastName}`,
@@ -91,11 +140,11 @@ export function Checkout() {
       razorpay.on('payment.failed', (response: any) => {
         setIsProcessing(false);
         const errorMsg = response.error?.description || response.error?.reason || 'Payment failed. Please try again.';
-        alert('Payment Failed: ' + errorMsg);
+        setError('Payment Failed: ' + errorMsg);
       });
     } else {
       setIsProcessing(false);
-      alert('Razorpay is not loaded. Please include the Razorpay script in your HTML.');
+      setError('Razorpay is not loaded. Please refresh the page and try again.');
     }
   };
 
@@ -148,12 +197,31 @@ export function Checkout() {
           >
             ORDER CONFIRMED!
           </h1>
-          <p className="text-xl text-white/70 mb-8">
-            Thank you for your purchase, {formData.firstName}! Your order has been placed successfully.
+          <p className="text-xl text-white/70 mb-4">
+            Thank you for your purchase, {formData.firstName}!
           </p>
-          <p className="text-white/50 mb-8">
-            A confirmation email has been sent to {formData.email}
+          <p className="text-white/50 text-sm mb-6">
+            Order ID: <span className="text-[#00ff9d] font-mono">{orderId}</span>
           </p>
+          
+          {/* Email notification */}
+          <div className="p-4 rounded-xl bg-[#1a1a2e] border border-white/10 mb-8">
+            <div className="flex items-center justify-center space-x-3 mb-2">
+              <Mail className="w-5 h-5 text-[#00d9ff]" />
+              <span className="text-white font-bold">Confirmation Email Sent</span>
+            </div>
+            <p className="text-white/50 text-sm">
+              We've sent the order details and invoice to:<br />
+              <span className="text-[#00ff9d]">{formData.email}</span>
+            </p>
+          </div>
+
+          {error && (
+            <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-sm mb-6">
+              {error}
+            </div>
+          )}
+
           <Link to="/">
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -189,6 +257,12 @@ export function Checkout() {
         >
           {step === 'shipping' ? 'CHECKOUT' : 'PAYMENT'}
         </h1>
+
+        {error && (
+          <div className="mb-6 p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400">
+            {error}
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">

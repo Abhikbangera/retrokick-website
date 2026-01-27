@@ -9,6 +9,7 @@ import { About } from '@/app/pages/About';
 import { Contact } from '@/app/pages/Contact';
 import { Checkout } from '@/app/pages/Checkout';
 import { Login } from '@/app/pages/Login';
+import { AdminDashboard } from '@/app/pages/AdminDashboard';
 import { CartProvider } from '@/app/context/CartContext';
 import { AuthProvider } from '@/app/context/AuthContext';
 import { ThemeProvider } from 'next-themes';
@@ -30,6 +31,7 @@ function App() {
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/contact" element={<Contact />} />
                 </Routes>
