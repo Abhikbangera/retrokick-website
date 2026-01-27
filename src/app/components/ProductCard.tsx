@@ -191,20 +191,18 @@ export function ProductCard({ product }: ProductCardProps) {
               )}
             </div>
 
-            <motion.button
+            <button
               id={`add-btn-${product.id}`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               onClick={(e) => {
                 console.log('Button clicked for:', product.name);
                 setClickCount(c => c + 1);
                 handleAddToCart(e);
               }}
-              className="group/btn px-4 py-2 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center space-x-2 hover:shadow-lg hover:shadow-[#00ff9d]/50 transition-shadow"
+              className="px-4 py-2 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center space-x-2 hover:shadow-lg hover:shadow-[#00ff9d]/50 transition-shadow cursor-pointer"
             >
               <ShoppingCart className="w-4 h-4" />
               <span className="text-sm">ADD</span>
-            </motion.button>
+            </button>
           </div>
         </div>
 
