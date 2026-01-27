@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { useCart } from '@/app/context/CartContext';
+import { useAuth } from '@/app/context/AuthContext';
 import { ArrowLeft, Lock, Check, Truck, Shield } from 'lucide-react';
 
 declare global {
@@ -12,6 +13,7 @@ declare global {
 
 export function Checkout() {
   const { items, totalPrice, clearCart } = useCart();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState<'shipping' | 'payment' | 'success'>('shipping');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -25,6 +27,13 @@ export function Checkout() {
     state: '',
     pincode: '',
   });
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated && items.length > 0) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, items.length, navigate]);
 
   const shipping = totalPrice > 5000 ? 0 : 199;
   const tax = totalPrice * 0.18;

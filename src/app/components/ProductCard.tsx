@@ -12,7 +12,6 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const [hoverPosition, setHoverPosition] = useState<'left' | 'right' | null>(null);
   const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0] || 'M');
-  const [clickCount, setClickCount] = useState(0);
   const imageRef = useRef<HTMLDivElement>(null);
   const { addItem } = useCart();
 
@@ -37,10 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('Adding to cart:', product.name, 'Size:', selectedSize);
     addItem(product, 1, selectedSize);
-    console.log('Added to cart successfully');
-    alert(`${product.name} (Size: ${selectedSize}) added to cart!\nPrice: ₹${product.price.toLocaleString('en-IN')}`);
   };
 
   const showBackImage = hoverPosition === 'right' && product.backImage;
@@ -182,22 +178,12 @@ export function ProductCard({ product }: ProductCardProps) {
 
           {/* Price and Cart */}
           <div className="flex items-center justify-between">
-            <div>
-              <span className="text-2xl font-black text-[#00ff9d]">
-                ₹{product.price.toLocaleString('en-IN')}
-              </span>
-              {clickCount > 0 && (
-                <span className="ml-2 text-sm text-white/50">Clicks: {clickCount}</span>
-              )}
-            </div>
+            <span className="text-2xl font-black text-[#00ff9d]">
+              ₹{product.price.toLocaleString('en-IN')}
+            </span>
 
             <button
-              id={`add-btn-${product.id}`}
-              onClick={(e) => {
-                console.log('Button clicked for:', product.name);
-                setClickCount(c => c + 1);
-                handleAddToCart(e);
-              }}
+              onClick={handleAddToCart}
               className="px-4 py-2 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center space-x-2 hover:shadow-lg hover:shadow-[#00ff9d]/50 transition-shadow cursor-pointer"
             >
               <ShoppingCart className="w-4 h-4" />

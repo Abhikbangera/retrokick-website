@@ -9,7 +9,7 @@ export function Home() {
   const featuredProducts = products.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f]">
+    <div className="min-h-screen bg-[#0a0a0f] pt-20">
       <Hero />
 
       {/* Features Section */}

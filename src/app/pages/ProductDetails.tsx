@@ -187,12 +187,9 @@ export function ProductDetails() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  if (!selectedSize) {
-                    alert('Please select a size first');
-                    return;
+                  if (selectedSize) {
+                    addItem(product, 1, selectedSize);
                   }
-                  addItem(product, 1, selectedSize);
-                  alert(`${product.name} (Size: ${selectedSize}) added to cart!\nPrice: ₹${product.price.toLocaleString('en-IN')}`);
                 }}
                 className="flex-1 py-4 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center justify-center space-x-2 hover:shadow-xl hover:shadow-[#00ff9d]/50 transition-shadow cursor-pointer"
                 style={{ fontFamily: "'Bebas Neue', sans-serif" }}
