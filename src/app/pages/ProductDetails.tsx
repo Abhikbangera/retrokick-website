@@ -3,13 +3,15 @@ import { motion } from 'motion/react';
 import { products } from '@/app/data/products';
 import { ShoppingCart, Heart, Star, Truck, Shield, ArrowLeft } from 'lucide-react';
 import { useState, useRef } from 'react';
+import { useCart } from '@/app/context/CartContext';
 
 export function ProductDetails() {
   const { id } = useParams();
   const product = products.find((p) => p.id === id);
-  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedSize, setSelectedSize] = useState(product?.sizes[0] || '');
   const [hoverPosition, setHoverPosition] = useState<'left' | 'right' | null>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const { addItem } = useCart();
 
   if (!product) {
     return (
@@ -184,7 +186,15 @@ export function ProductDetails() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex-1 py-4 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center justify-center space-x-2 hover:shadow-xl hover:shadow-[#00ff9d]/50 transition-shadow"
+                onClick={() => {
+                  if (!selectedSize) {
+                    alert('Please select a size first');
+                    return;
+                  }
+                  addItem(product, 1, selectedSize);
+                  alert(`${product.name} (Size: ${selectedSize}) added to cart!\nPrice: ₹${product.price.toLocaleString('en-IN')}`);
+                }}
+                className="flex-1 py-4 bg-gradient-to-r from-[#00ff9d] to-[#00d9ff] text-black font-bold rounded-lg flex items-center justify-center space-x-2 hover:shadow-xl hover:shadow-[#00ff9d]/50 transition-shadow cursor-pointer"
                 style={{ fontFamily: "'Bebas Neue', sans-serif" }}
               >
                 <ShoppingCart className="w-5 h-5" />
