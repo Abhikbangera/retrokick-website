@@ -43,12 +43,46 @@ export interface AdminStats {
   recentOrders: Order[];
 }
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
 const handleResponse = async (response: Response) => {
   const data = await response.json();
   if (!response.ok) {
     throw new Error(data.message || 'Something went wrong');
   }
   return data;
+};
+
+// User Authentication APIs
+export const signup = async (name: string, email: string, password: string): Promise<{ success: boolean; message: string }> => {
+  const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, password }),
+  });
+  return handleResponse(response);
+};
+
+export const userLogin = async (email: string, password: string): Promise<{ success: boolean; token: string; user: User }> => {
+  const response = await fetch(`${API_BASE_URL}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
+  return handleResponse(response);
+};
+
+export const adminLogin = async (email: string, password: string): Promise<{ success: boolean; token: string; admin: { email: string } }> => {
+  const response = await fetch(`${API_BASE_URL}/admin/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
+  return handleResponse(response);
 };
 
 // Order APIs
@@ -81,15 +115,6 @@ export const updateOrderStatus = async (orderId: string, status: string): Promis
 };
 
 // Admin APIs
-export const adminLogin = async (email: string, password: string): Promise<{ success: boolean; token: string; admin: { email: string } }> => {
-  const response = await fetch(`${API_BASE_URL}/admin/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-  return handleResponse(response);
-};
-
 export const getAdminStats = async (): Promise<AdminStats> => {
   const response = await fetch(`${API_BASE_URL}/admin/stats`);
   return handleResponse(response);
