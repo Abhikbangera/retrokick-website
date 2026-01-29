@@ -5,5 +5,33 @@
     "email": "test@example.com",
     "password": "$2b$10$EjnHfTpEkrx9/1BgC7L72uOn74mfM5kV3TVtXbp199LsGKH9ulpRy",
     "createdAt": "2026-01-27T18:51:08.589Z"
+  },
+  {
+    "id": "e75493c3-a58a-4c19-af44-b35c07a4ed94",
+    "name": "sns",
+    "email": "sreevardhan132@gmail.com",
+    "password": "$2b$10$jkUmmC7p.Z0k9dFMTRNj1.SHpUxiHvhAA2IIAbPBEgKe4gZ3Ndcz.",
+    "createdAt": "2026-01-29T09:17:03.160Z"
+  },
+  {
+    "id": "fad6fb34-adfc-48f1-9644-17babb9592df",
+    "name": "New User",
+    "email": "newuser@test.com",
+    "password": "$2b$10$nYxaoW0.rswPGf9pNDzQee07CF6XGQRbwRu0RAUyDwLc34ZlAXEEW",
+    "createdAt": "2026-01-29T09:24:08.104Z"
+  },
+  {
+    "id": "145be326-c7a4-456e-9970-50ab2020003c",
+    "name": "ram",
+    "email": "vardhansree671@gmail.com",
+    "password": "$2b$10$QuudY2Gjz.pv9Qg2Dj/uR.ZREXZVy28IANjXTjpNUvgp9O3zMAcWW",
+    "createdAt": "2026-01-29T09:29:08.544Z"
+  },
+  {
+    "id": "8e2f07fc-2de1-4a89-8f3f-d20fd3710062",
+    "name": "arin ",
+    "email": "guptaarin11@gmail.com",
+    "password": "$2b$10$RVnKU6p.RCoYzPc3i5eHb.0xVH61Xfx/9vhT2PAhzHkKe7xVE/0/q",
+    "createdAt": "2026-01-29T09:30:42.348Z"
   }
 ]
