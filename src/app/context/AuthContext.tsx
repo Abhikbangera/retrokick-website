@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { userLogin, User as ApiUser } from '@/app/services/api';
 
 interface User {
   id: string;
@@ -36,24 +37,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        // Simple validation (in real app, this would be an API call)
-        if (email && password.length >= 4) {
-          const userData: User = {
-            id: '1',
-            name: email.split('@')[0],
-            email: email,
-          };
-          setUser(userData);
-          localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(userData));
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      }, 500);
-    });
+    try {
+      const response = await userLogin(email, password);
+      
+      if (response.success) {
+        setUser(response.user);
+        localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(response.user));
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
+    }
   };
 
   const logout = () => {
