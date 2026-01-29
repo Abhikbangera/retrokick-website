@@ -33,5 +33,12 @@
     "email": "guptaarin11@gmail.com",
     "password": "$2b$10$RVnKU6p.RCoYzPc3i5eHb.0xVH61Xfx/9vhT2PAhzHkKe7xVE/0/q",
     "createdAt": "2026-01-29T09:30:42.348Z"
+  },
+  {
+    "id": "8b2aae73-7692-42c0-a15c-1eb822216b9f",
+    "name": "ram",
+    "email": "rambhupesh05@gmail.com",
+    "password": "$2b$10$hriMiBPiyWugVSMWaSvZl.H2QJHeztHq8md8KUiA46m77Dksoakl2",
+    "createdAt": "2026-01-29T09:33:46.807Z"
   }
 ]
